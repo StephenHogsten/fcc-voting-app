@@ -1,0 +1,36 @@
+.jumbotron {
+  text-align: center;
+  background-color: steelblue;
+  color: floralwhite;
+}
+
+.container {
+  margin-top: 54px;
+}
+
+.poll-holder {
+  background-color: lightsteelblue;
+  border-radius: inherit;
+}
+
+.top-bar {
+  background-color: darkslategray;
+  position: fixed;
+  top:0px;
+  left: 0px;
+  width: 100%;
+}
+.login-box {
+  float: right;
+  background-color: steelblue;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 8px;
+  color: floralwhite;
+  font-size: 15pt;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.login-box:hover {
+  background-color: lightsteelblue;
+}

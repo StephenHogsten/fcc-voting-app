@@ -16,6 +16,21 @@
     "mocha": "^3.2.0",
     "mongoose": "^4.8.2",
     "passport": "^0.3.2",
-    "passport-github": "^1.1.0"
-  }
+    "passport-github": "^1.1.0",
+    "path": "^0.12.7"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hogdogthegod/fcc-voting-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hogdogthegod/fcc-voting-app/issues"
+  },
+  "homepage": "https://github.com/hogdogthegod/fcc-voting-app#readme"
 }
