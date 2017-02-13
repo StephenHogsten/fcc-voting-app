@@ -1,0 +1,21 @@
+{
+  "name": "fcc_voting_app",
+  "version": "0.1.0",
+  "description": "voting app for freecodecamp",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "hogdog",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1",
+    "express-session": "^1.15.1",
+    "mocha": "^3.2.0",
+    "mongoose": "^4.8.2",
+    "passport": "^0.3.2",
+    "passport-github": "^1.1.0"
+  }
+}
