@@ -23,4 +23,4 @@ pollSchema.method('addVotingOption', function(optionText) {
   })
 });
 
-module.exports = mongoose.model('Poll', pollSchema);
+module.exports = mongoose.model('Vote_poll', pollSchema);
