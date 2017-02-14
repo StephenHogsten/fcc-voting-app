@@ -16,18 +16,18 @@ module.exports = function(passport) {
   
   passport.use(new GitHubStrategy(
     {
-      clientID: process.env.githubClientId,
-      clientSecret: process.env.githubSecret,
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: process.env.APP_URL + '/auth/github/callback'
     },
     function(token, tokenTimeout, docFromGithub, doneCallback) {
       process.nextTick(function() {
         User.findOne({'github.id': docFromGithub.id}, function(err, user) {
-          if (err) return done(err);
+          if (err) return doneCallback(err);
           if (user) {
             // user found - update picture
-            user.photoUrl = profile.photos[0].value;
-            return done(null, user);
+            user.photoUrl = docFromGithub.photos[0].value;
+            return doneCallback(null, user);
           }
           // no user found - create one
           var newUser = new User({
@@ -40,7 +40,7 @@ module.exports = function(passport) {
           });
           newUser.save(function(err) {
             if (err) throw err;
-            return done(null, newUser);
+            return doneCallback(null, newUser);
           });
         })
       });
