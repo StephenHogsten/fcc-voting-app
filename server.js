@@ -6,8 +6,10 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
 var path = require('path');
+var bodyParser = require('body-parser');
 var routes = require('./app/configure/routes.js');
 
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_URI);
 
 var app = express();
@@ -23,6 +25,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.urlencoded({extended: false}))
 
 routes(app, passport);
 

@@ -5,11 +5,16 @@ var mongoose = require('mongoose');
 var pollSchema = mongoose.Schema({
   owner: String,
   title: String,
+  description: String,
   isOptionEditAllowed: Boolean,
   votes: [{
     optionText: String, 
     votes: Number
-  }]
+  }],
+  created: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 pollSchema.method('addOneVote', function(optionIdx) {
@@ -23,4 +28,4 @@ pollSchema.method('addVotingOption', function(optionText) {
   })
 });
 
-module.exports = mongoose.model('Poll', pollSchema);
+module.exports = mongoose.model('Vote_poll', pollSchema);
