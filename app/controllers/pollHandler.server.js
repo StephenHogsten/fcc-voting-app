@@ -21,12 +21,12 @@ function PollHandler() {
     var votes = []
     // console.log('adding new poll');
     var i = 1, option, val;
-    console.log(body);
+    // console.log(body);
     while (true) {
       option = 'option-' + i++;
-      console.log('i: ' + i + ', option: ' + option);
+      // console.log('i: ' + i + ', option: ' + option);
       if (!Object.prototype.hasOwnProperty.call(body, option)) break;
-      console.log(' val: ' + val);
+      // console.log(' val: ' + val);
       val = body[option];
       if (val) votes.push({
         'optionText': val,
