@@ -8,9 +8,32 @@
   margin-top: 60px;
 }
 
-.poll-holder {
+#poll-holder {
   background-color: lightsteelblue;
-  border-radius: inherit;
+  border-radius: 5px;
+}
+
+.poll {
+  background-color: darkslateblue;
+  color: white;
+  margin: 20px;
+  padding: 5px;
+  border-radius: 5px;
+}
+.poll-title {
+  font-weight: bolder;
+  text-align: left;
+}
+.poll-date {
+  margin-left: 20px;
+}
+.poll-description {
+  background-color: steelblue;
+  color: white;
+}
+
+.display-name {
+  text-align: left;
 }
 
 .top-bar {
@@ -20,9 +43,9 @@
   left: 0px;
   width: 100%;
 }
-.login-box {
-  float: right;
-  background-color: steelblue;
+.top-bar-box {
+  float: left;
+  display: block;
   border-radius: 5px;
   margin: 5px 10px 5px 10px;
   padding: 2px 12px 2px 8px;
@@ -30,7 +53,22 @@
   font-size: 15pt;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-
-.login-box:hover {
+.login-box {
+  float: right;
+  background-color: steelblue;
+}
+.top-bar-box-right {
+  float: right;
+}
+.top-bar-box:hover {
   background-color: lightsteelblue;
+}
+.top-bar-box-active {
+  background-color: steelblue;
+  color: black;
+}
+
+.profile-pic {
+  max-height: 100px;
+  max-width: 100px;
 }

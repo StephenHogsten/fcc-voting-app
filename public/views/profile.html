@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vote to Joy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/css/main.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div id="my-polls" class="top-bar-box top-bar-box-active">My Polls</div>
+    <div id="all-polls" class="top-bar-box">All Polls</div>
+    <a href='/logout'>
+      <div class="top-bar-box login-box">
+        Logout
+      </div>
+    </a>
+    <a href='/new_poll'>
+      <div class="top-bar-box top-bar-box-right">New Poll</div>
+    </a>
+  </div>
+  <div class="jumbotron">
+    <img src="" class="img-thumbnail profile-pic" alt="[no profile pic]">
+    <h1><span class="display-name"></span></h1>
+  </div>
+  <div class="container">
+    <div class="col-xs-9 col-xs-offset-1" id="poll-holder">
+    </div>
+  </div>
+
+<!--put the scripts down here-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+<script src="/controllers/userHandler.client.js"></script>
+<script>
+  userHandler.buildProfile();
+</script>
+</body>
+</html>
