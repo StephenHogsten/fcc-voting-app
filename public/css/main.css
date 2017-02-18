@@ -19,6 +19,7 @@
   margin: 20px;
   padding: 5px;
   border-radius: 5px;
+  position: relative;
 }
 .poll-title {
   font-weight: bolder;
@@ -28,8 +29,23 @@
   margin-left: 20px;
 }
 .poll-description {
-  background-color: steelblue;
+  background-color: darkslategray;
+  box-shadow: 0px 0px 4px 3px lightgrey;
   color: white;
+  position: absolute;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.option-holder {
+  background-color: lightsteelblue;
+  padding: 21px 5px 5px 5px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.hidden-input {
+  display: none;
 }
 
 .display-name {

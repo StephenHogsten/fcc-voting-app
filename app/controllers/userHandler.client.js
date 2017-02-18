@@ -31,7 +31,7 @@ userHandler.addSinglePoll = function(d) {
     .text((d) => d.title);
   thisDiv.append('span')
     .attr('class', 'poll-date')
-    .text((d) => '    '+(new Date(d.created)).toLocaleString());
+    .text((d) => '    created: '+(new Date(d.created)).toLocaleString());
 };
 
 userHandler.showSomePolls = function(json) {

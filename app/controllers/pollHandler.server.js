@@ -16,11 +16,38 @@ function PollHandler() {
     });
   };
 
+  this.updatePoll = function(req, res, next) {
+    var body = req.body;
+    Poll.findById(body.id, function(err, poll) {
+      if (err) throw err;
+      poll.title = body.title;
+      poll.description = body.description;
+
+      var votes = poll.votes.slice();
+      var option;
+      for (var i=0, l=votes.length; i<l; i++) {
+        option = 'option-' + i;
+        votes[i].optionText = body[option];
+      }
+      while (true) {
+        option = 'option-' + i++;
+        if (!Object.prototype.hasOwnProperty.call(body, option)) break;
+        if (body[option]) votes.push({
+          'optionText': body[option],
+          'votes': 0
+        });
+      }
+      poll.votes = votes;
+
+      poll.save();
+    });
+    
+    next();
+  };
+
   this.saveNewPoll = function(req, res, next) {
     var body = req.body;
-    var votes = []
-    // console.log('adding new poll');
-    var i = 1, option;
+    var votes = [], i = 0, option;
     while (true) {
       option = 'option-' + i++;
       if (!Object.prototype.hasOwnProperty.call(body, option)) break;

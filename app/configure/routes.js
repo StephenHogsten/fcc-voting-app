@@ -4,6 +4,8 @@
 var path = require('path');
 var base = path.join(process.cwd(), 'public', 'views');
 
+var Poll = require('../models/poll.js');
+
 var PollHandler = require('../controllers/pollHandler.server.js');
 var UserHandler = require('../controllers/userHandler.server.js');
 var pollHandler = new PollHandler();
@@ -40,13 +42,19 @@ module.exports = function(app, passport) {
       } else {
         res.redirect('/');
     }})
-    .post(pollHandler.saveNewPoll, function(req, res) {
-      res.redirect('/profile');
-    })
 
-  app.route('/poll/:poll_id', function(req, res, next) {
-    req.poll_id = req.params.poll_id;
-    res.sendFile(path.join(base, 'poll.html'));
+  app.get('/profile/:profile_id/poll/:poll_id', function(req, res, next) {
+    Poll.find({'_id': req.params.poll_id}, (err, poll) => {
+      if (err) throw err;
+      
+      if (!req.isAuthenticated()) {
+        res.redirect('/poll/' + req.params.poll_id);
+      } else if (poll.owner != req.params.profile_id) {
+        res.redirect('/poll/' + req.params.poll_id);
+      } else {
+        res.sendFile(path.join(base, 'existing_poll.html'));
+      }
+    })
   });
 
 // login / logout / passport stuff
@@ -78,4 +86,13 @@ module.exports = function(app, passport) {
     .get(userHandler.findAllUserPolls);
   app.route('/api/all_polls')
     .get(pollHandler.findAllPolls);
+  app.route('/api/new_poll')
+    .post(pollHandler.saveNewPoll, function(req, res) {
+        // res.json(req.body);
+        res.redirect('/profile');
+      })
+  app.route('/api/update_poll/')
+    .post(pollHandler.updatePoll, function(req, res) {
+      res.redirect('/profile');
+    });
 }
