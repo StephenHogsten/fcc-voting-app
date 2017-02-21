@@ -68,7 +68,7 @@ function populate() {
     d3.select('.top-bar').append('a')
       .attr('href', '/')
       .append('div')
-        .classed('top-bar-box top-bar-box-active', true)
+        .classed('top-bar-box', true)
         .text('Return Home');
     
   });
