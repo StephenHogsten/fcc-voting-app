@@ -15,23 +15,25 @@ userHandler.ajaxJson = function(url, cb) {
 
 userHandler.addSinglePoll = function(d) {
   // add in a link to view / edit individual polls
-  var thisDiv = d3.select(this).append('div')
-    .attr('class', 'poll row')
-    .on('mouseover', (d) => {
-      var desc = (d.description)? d.description: '[no description]';
-      thisDiv.append('div')
-        .attr('class', 'poll-description')
-        .text(desc);
-    })
-    .on('mouseout', () => {
-      d3.select('.poll-description').remove()
-    });
+  var thisDiv = d3.select(this).append('a')
+    .attr('href', '/poll/' + d['_id'])
+    .append('div')
+      .attr('class', 'poll row')
+      .on('mouseover', (d) => {
+        var desc = (d.description)? d.description: '[no description]';
+        thisDiv.append('div')
+          .attr('class', 'poll-description')
+          .text(desc);
+      })
+      .on('mouseout', () => {
+        d3.select('.poll-description').remove()
+      })
   thisDiv.append('h3')
     .attr('class', 'poll-title')
     .text((d) => d.title);
   thisDiv.append('span')
     .attr('class', 'poll-date')
-    .text((d) => '    '+(new Date(d.created)).toLocaleString());
+    .text((d) => '    created: '+(new Date(d.created)).toLocaleString());
 };
 
 userHandler.showSomePolls = function(json) {

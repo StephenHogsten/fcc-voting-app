@@ -7,6 +7,7 @@ var passport = require('passport');
 var session = require('express-session');
 var path = require('path');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var routes = require('./app/configure/routes.js');
 
 mongoose.Promise = global.Promise;
@@ -23,6 +24,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({extended: false}))

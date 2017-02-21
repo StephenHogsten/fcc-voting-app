@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vote to Joy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/css/main.css">
+</head>
+<body>
+  <div class="top-bar">
+  </div>
+  <div class="container">
+    <div class="jumbotron">Congratulations!</div>
+    <div class="row">
+      <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-2">
+        <p>You've successfully a poll!</p>
+        <p>Copy this link to share this with your friends!</p>
+        <input type='text' id='share-link' readonly></input>
+        <p>You can access this poll again to review results or make edits by following the same link, or by referencing polls from your home page</p>
+      </div>
+    </div>
+  </div>
+
+<!--put the scripts down here-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="/controllers/userHandler.client.js"></script>
+<script src="/controllers/vote.client.js"></script>
+<script>
+  populate();
+  var shareLink = d3.select('#share-link')
+    .attr('value', 
+      window.location.host + '/poll/' + window.location.pathname.split('/')[2]
+    )
+  shareLink.on('focus', () => shareLink.node().select())
+  shareLink.node().focus();
+</script>
+</body>
+</html> 

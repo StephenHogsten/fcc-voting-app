@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vote to Joy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/css/main.css">
+</head>
+<body>
+  <div class="top-bar">
+  </div>
+  <div class="container">
+    <div class="row"></div>
+      <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-2" id="poll-title">  
+      </div>
+    <div class="row"></div>
+      <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-2" id="poll-description">
+      </div>
+    <div class="row">
+      <div class="col-xs-8 col-xs-offset-2 col-md-8 col-md-offset-2">
+        <form action="/api/old_vote" method='POST' id='old-form'>
+          <legend><h1 class="poll-title"></h1><p class="poll-desc"></p></legend>
+          <div class="vote-option-holder"></div>
+          <button type='submit' class='btn btn-primary'>Submit Vote</button>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-8 col-xs-offset-2 col-md-8 col-offset-md-2">
+        <form action="/api/new_vote" method='POST' id="new-form" class="hidden-input">
+          <legend><h1 class="poll-title"></h1><span class="poll-desc"></span></legend>
+          <div class="form-group">
+            <label for="form-new-vote">Title:</label>
+            <input required type="text" class="form-control" id="form-new-vote" name="vote" value="New Voting Option">
+          </div>
+          <button type='button' class='btn btn-warning' id='back-to-old'>Cancel</button>
+          <button type='submit' class='btn btn-primary'>Submit New Vote</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!--put the scripts down here-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+<script src="/controllers/userHandler.client.js"></script>
+<script src="/controllers/vote.client.js"></script>
+<script>
+  populate();
+</script>
+</body>
+</html> 
