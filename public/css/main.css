@@ -64,6 +64,10 @@
   border-radius: 5px;
 }
 
+.btn-danger {
+  float: right;
+}
+
 #vote-alt {
   margin-right: 20px;
 }

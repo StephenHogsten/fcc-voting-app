@@ -31,6 +31,15 @@ userHandler.addSinglePoll = function(d) {
   thisDiv.append('h3')
     .attr('class', 'poll-title')
     .text((d) => d.title);
+  thisDiv.append('div')
+    .classed('btn btn-danger', true)
+    .classed('hidden-input', (d) => d.owner != window.location.pathname.split('/')[2])
+    .text('Delete Poll')
+    .on('click', (d) => {
+      window.location.pathname = '/api/delete_poll/' + d['_id'];
+      d3.event.preventDefault();
+      d3.event.stopPropagation();
+    });
   thisDiv.append('span')
     .attr('class', 'poll-date')
     .text((d) => '    created: '+(new Date(d.created)).toLocaleString());

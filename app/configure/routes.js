@@ -102,6 +102,9 @@ module.exports = (app, passport) => {
   app.get('/api/is_logged_in', function(req, res) {
     res.json({loggedIn: req.isAuthenticated()}); 
   });
+  app.get('/api/delete_poll/:poll_id', pollHandler.deletePoll, function(req, res) {
+    res.redirect('/profile');
+  })
   app.post('/api/new_poll', pollHandler.saveNewPoll, function(req, res) {
       res.redirect('/share_poll/' + req.newPollId);     // this need to be a new landing page - SHARE THIS
     })

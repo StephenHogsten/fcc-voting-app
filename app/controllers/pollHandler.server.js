@@ -118,6 +118,13 @@ function PollHandler() {
         res.json(doc)
       })
   };
+
+  this.deletePoll = function(req, res, next) {
+    Poll.findByIdAndRemove(req.params.poll_id, (err, doc) => {
+      if (err) throw err;
+      next();
+    });
+  }
 }
 
 module.exports = PollHandler;

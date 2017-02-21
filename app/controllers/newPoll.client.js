@@ -8,7 +8,7 @@ var addNewOption = function(startVal, isPermanent) {
     .attr('id', newId)
     .attr('name', 'option-' + num)
     .attr('required', 'true')
-    .attr('value', startVal)
+    .attr(isPermanent? 'value': 'placeholder', startVal)
     .on('blur', () => {
       if (isPermanent) return;
       if (countOptions() < 3) return;
