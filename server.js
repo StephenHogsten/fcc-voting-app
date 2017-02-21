@@ -8,6 +8,7 @@ var session = require('express-session');
 var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var favicon = require('serve-favicon');
 var routes = require('./app/configure/routes.js');
 
 mongoose.Promise = global.Promise;
@@ -15,8 +16,8 @@ mongoose.connect(process.env.MONGO_URI);
 
 var app = express();
 
-app.use('/controllers', express.static(path.join(process.cwd(), 'app', 'controllers')));
-app.use('/public', express.static(path.join(process.cwd(), 'public')));
+app.use('/controllers', express.static(path.join(__dirname, 'app', 'controllers')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 require('./app/configure/passport')(passport);
 app.use(session({
@@ -24,6 +25,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.use(favicon(path.join(__dirname, 'public', 'img', 'vote.png')))
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());

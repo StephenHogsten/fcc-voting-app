@@ -20,7 +20,8 @@
     "mongoose": "^4.8.2",
     "passport": "^0.3.2",
     "passport-github": "^1.1.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "serve-favicon": "^2.4.0"
   },
   "directories": {
     "test": "test"
