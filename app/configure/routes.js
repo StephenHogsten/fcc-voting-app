@@ -17,15 +17,23 @@ module.exports = (app, passport) => {
     if (req.isAuthenticated()) {
       res.redirect('/profile');
     } else {
+      delete req.session.lastPoll;
       res.sendFile(path.join(base, 'all_polls.html'));
     }
   });
 
   app.get('/profile', (req, res) => {
-    var id = req.user['_id'].toString();
-    id = id.split(':')[0];
-    if (id) { res.redirect('/profile/' + id); }
-    else { res.json({error: 'no user id found in req'}); }
+    if (!req.isAuthenticated()) { res.redirect('/'); }
+    if (req.session.hasOwnProperty('lastPoll')) {
+      var pollId = req.session.lastPoll;
+      delete req.session.lastPoll;
+      res.redirect('/poll/' + pollId);
+    } else {
+      var id = req.user['_id'].toString();
+      id = id.split(':')[0];
+      if (id) { res.redirect('/profile/' + id); }
+      else { res.json({error: 'no user id found in req'}); }
+    }
   });
   app.get('/profile/:id', (req, res) => {
     if (req.isAuthenticated()) {
@@ -53,7 +61,10 @@ module.exports = (app, passport) => {
   app.get('/poll/:poll_id/', pollHandler.checkPollExists, function(req, res) {
     var result = req.pollHandler;
     if (!result.pollExists) { res.json({'error': 'no such poll exists'}); }
-    else if (!result.loggedIn) { res.sendFile(path.join(base, 'vote.html')); }
+    else if (!result.loggedIn) { 
+      req.session.lastPoll = req.params.poll_id;
+      res.sendFile(path.join(base, 'vote.html')); 
+    }
     else if (!result.ownerIsUser) { res.sendFile(path.join(base, 'vote.html')); }
     else { res.redirect('/profile/' +  req.user['_id'] + '/poll/' + req.params.poll_id); }
   });

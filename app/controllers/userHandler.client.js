@@ -37,6 +37,7 @@ userHandler.addSinglePoll = function(d) {
 };
 
 userHandler.showSomePolls = function(json) {
+  document.cookie = 'lastPoll=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
   var polls = d3.select('#poll-holder').selectAll('.poll')
     .data(json);
   polls.enter().each(userHandler.addSinglePoll)
@@ -58,6 +59,7 @@ userHandler.showUserPolls = function(user){
 };
 
 userHandler.buildProfile = function() {
+  document.cookie = 'lastPoll=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
   var profImg = document.querySelector('.profile-pic');
   var dispName = document.querySelector('.display-name');
 

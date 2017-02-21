@@ -26,6 +26,7 @@ vote.switchOptions = function(isOldOn) {
 
 function populate() {
   var pollId = window.location.pathname.split('/')[2];    //  /poll/:id
+  document.cookie = 'lastPoll=' + pollId;
   // add hidden id field to both
   var form = d3.selectAll('form').append('input')
       .attr('type', 'text')

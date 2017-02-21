@@ -23,6 +23,7 @@
 #poll-holder {
   background-color: lightsteelblue;
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 .poll {
