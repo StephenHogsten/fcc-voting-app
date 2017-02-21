@@ -11,6 +11,11 @@
   max-height: 300px;
 }
 
+#share-link {
+  color: dimgray;
+  width: 400px;
+}
+
 .container {
   margin-top: 60px;
 }

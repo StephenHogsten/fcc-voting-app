@@ -62,6 +62,10 @@ module.exports = (app, passport) => {
     else { res.sendFile(path.join(base, 'graph.html')); }
   })
 
+  app.get('/share_poll/:poll_id', function(req, res) {
+    res.sendFile(path.join(base, 'share.html'));
+  })
+
 // login / logout / passport stuff
   app.get(
     '/auth/github', 
@@ -87,10 +91,8 @@ module.exports = (app, passport) => {
   app.get('/api/is_logged_in', function(req, res) {
     res.json({loggedIn: req.isAuthenticated()}); 
   });
-  app.get('/api/new_poll', 
-    pollHandler.saveNewPoll, 
-    function(req, res) {
-      res.redirect('/profile');     // this need to be a new landing page - SHARE THIS
+  app.post('/api/new_poll', pollHandler.saveNewPoll, function(req, res) {
+      res.redirect('/share_poll/' + req.newPollId);     // this need to be a new landing page - SHARE THIS
     })
   app.post('/api/update_poll/', pollHandler.updatePoll, function(req, res) {
     res.redirect('/profile');

@@ -106,6 +106,7 @@ function PollHandler() {
       votes: votes
     });
     newDoc.save();
+    req.newPollId = newDoc['_id'];
     next();
   };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 function addGraph(ctx, pollId) {
-  console.log('adding graph')
+  // console.log('adding graph')
   userHandler.ajaxJson('/api/poll/' + pollId, (json) => {
     var labels = json.votes.map((a) => a.optionText);
     var dataset = json.votes.map((a) => Number(a.votes));
