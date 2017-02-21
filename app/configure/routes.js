@@ -11,51 +11,56 @@ var UserHandler = require('../controllers/userHandler.server.js');
 var pollHandler = new PollHandler();
 var userHandler = new UserHandler();
 
-module.exports = function(app, passport) {
+module.exports = (app, passport) => {
   
-  app.route('/')
-    .get(function(req, res) {
-      if (req.isAuthenticated()) {
-        res.redirect('/profile');
-      } else {
-        res.sendFile(path.join(base, 'all_polls.html'));
-      }
-    });
+  app.get('/', (req, res) => {
+    if (req.isAuthenticated()) {
+      res.redirect('/profile');
+    } else {
+      res.sendFile(path.join(base, 'all_polls.html'));
+    }
+  });
 
-  app.get('/profile', function(req, res) {
+  app.get('/profile', (req, res) => {
     var id = req.user['_id'].toString();
     id = id.split(':')[0];
     if (id) { res.redirect('/profile/' + id); }
     else { res.json({error: 'no user id found in req'}); }
-  })
-  app.get('/profile/:id', function(req, res) {
+  });
+  app.get('/profile/:id', (req, res) => {
     if (req.isAuthenticated()) {
       res.sendFile(path.join(base, 'profile.html'));
     } else {
       res.redirect('/');
     }
   });
-  app.route('/new_poll')
-    .get(function(req, res) {
-      if (req.isAuthenticated()) {
-        res.sendFile(path.join(base, 'new_poll.html'));
-      } else {
-        res.redirect('/');
-    }})
 
-  app.get('/profile/:profile_id/poll/:poll_id', function(req, res, next) {
-    Poll.find({'_id': req.params.poll_id}, (err, poll) => {
-      if (err) throw err;
-      
-      if (!req.isAuthenticated()) {
-        res.redirect('/poll/' + req.params.poll_id);
-      } else if (poll.owner != req.params.profile_id) {
-        res.redirect('/poll/' + req.params.poll_id);
-      } else {
-        res.sendFile(path.join(base, 'existing_poll.html'));
-      }
-    })
+  app.get('/new_poll', (req, res) => {
+    if (req.isAuthenticated()) {
+      res.sendFile(path.join(base, 'new_poll.html'));
+    } else {
+      res.redirect('/');
+  }})
+
+  app.get('/profile/:profile_id/poll/:poll_id', pollHandler.checkPollExists, (req, res, next) => {
+    var result = req.pollHandler;
+    if (!result.pollExists) { res.json({'error': 'no such poll exists'}); }
+    else if (!result.loggedIn) { res.sendFile(path.join(base, 'vote.html')); }
+    else if (!result.ownerIsUser) { res.sendFile(path.join(base, 'vote.html')); }
+    else { res.sendFile(path.join(base, 'existing_poll.html')); }
   });
+  
+  app.get('/poll/:poll_id/', pollHandler.checkPollExists, function(req, res) {
+    var result = req.pollHandler;
+    if (!result.pollExists) { res.json({'error': 'no such poll exists'}); }
+    else if (!result.loggedIn) { res.sendFile(path.join(base, 'vote.html')); }
+    else if (!result.ownerIsUser) { res.sendFile(path.join(base, 'vote.html')); }
+    else { res.redirect('/profile/' +  req.user['_id'] + '/poll/' + req.params.poll_id); }
+  });
+  app.get('/poll/:poll_id/graph', pollHandler.checkPollExists, function(req, res) {
+    if (!req.pollHandler.pollExists) { res.json({'error': 'no such poll exists'}); }
+    else { res.sendFile(path.join(base, 'graph.html')); }
+  })
 
 // login / logout / passport stuff
   app.get(
@@ -66,33 +71,34 @@ module.exports = function(app, passport) {
     '/auth/github/callback',
     passport.authenticate('github', {
       successRedirect: '/profile/',
-      failureRedirect: '/login_failed'
+      failureRedirect: '/'
     })
   );
-  app.get('/login_failed', function(req, res) {
-    res.redirect('/');
-  })
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/')
   });
 
   // APIs
-  app.route('/api/poll/:id') 
-    .get(pollHandler.getPollInfo)  //retrieve poll data
-  app.route('/api/user/:id')
-    .get(userHandler.getUserInfo)
-  app.route('/api/user_polls/:id')
-    .get(userHandler.findAllUserPolls);
-  app.route('/api/all_polls')
-    .get(pollHandler.findAllPolls);
-  app.route('/api/new_poll')
-    .post(pollHandler.saveNewPoll, function(req, res) {
-        // res.json(req.body);
-        res.redirect('/profile');
-      })
-  app.route('/api/update_poll/')
-    .post(pollHandler.updatePoll, function(req, res) {
-      res.redirect('/profile');
-    });
+  app.get('/api/poll/:id', pollHandler.getPollInfo)  //retrieve poll data
+  app.get('/api/user/:id', userHandler.getUserInfo)
+  app.get('/api/user_polls/:id', userHandler.findAllUserPolls);
+  app.get('/api/all_polls', pollHandler.findAllPolls);
+  app.get('/api/is_logged_in', function(req, res) {
+    res.json({loggedIn: req.isAuthenticated()}); 
+  });
+  app.get('/api/new_poll', 
+    pollHandler.saveNewPoll, 
+    function(req, res) {
+      res.redirect('/profile');     // this need to be a new landing page - SHARE THIS
+    })
+  app.post('/api/update_poll/', pollHandler.updatePoll, function(req, res) {
+    res.redirect('/profile');
+  });
+  app.post('/api/old_vote', pollHandler.voteOld, function(req, res) {
+    res.redirect('/poll/' + req.body.id + '/graph/');
+  });
+  app.post('/api/new_vote', pollHandler.voteNew, function(req, res) {
+    res.redirect('/poll/' + req.body.id + '/graph/');
+  });
 }
