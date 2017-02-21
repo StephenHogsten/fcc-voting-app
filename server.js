@@ -25,7 +25,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-app.use(favicon(path.join(__dirname, 'public', 'img', 'vote.png')))
+app.use(favicon(path.join(__dirname, 'public', 'img', 'good_mark.ico')))
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
